@@ -9,6 +9,7 @@ Tara is a Mastra-based finance-research agent built for the Provue engineering t
 - Deterministic finance tools for spending analysis, recurring detection, fund returns, holding returns, and portfolio summaries
 - Mastra agent orchestration for Tara
 - Express server exposing the required `POST /ask` contract
+- Built-in chat interface served from `/`
 - JSONL request logs for observability
 - Local eval script for repeatable checks
 
@@ -35,6 +36,12 @@ Response:
 
 ```json
 { "answer": "Your biggest expense was ..." }
+```
+
+The same deployment also serves a lightweight chat interface at:
+
+```text
+GET /
 ```
 
 ## Environment
@@ -89,13 +96,35 @@ npm run ingest -- ./data-20260603T120050Z-3-001/data/sample_b
 npm run start
 ```
 
-5. Test locally:
+5. Open the chat interface locally:
+
+```text
+http://localhost:3000/
+```
+
+6. Test the API locally:
 
 ```powershell
 Invoke-RestMethod -Method Post `
   -Uri "http://localhost:3000/ask" `
   -ContentType "application/json" `
   -Body '{"question":"What was my biggest expense?"}'
+```
+
+Additional local examples:
+
+```powershell
+Invoke-RestMethod -Method Post `
+  -Uri "http://localhost:3000/ask" `
+  -ContentType "application/json" `
+  -Body '{"question":"How much did I spend on food in March 2025 after refunds?"}'
+```
+
+```powershell
+Invoke-RestMethod -Method Post `
+  -Uri "http://localhost:3000/ask" `
+  -ContentType "application/json" `
+  -Body '{"question":"What is my portfolio worth today, and how much have I made on it in absolute INR?"}'
 ```
 
 ## Evals
@@ -147,6 +176,44 @@ The hidden-snapshot requirement shaped the design:
 - merchant matching is heuristic and token-based, not hardcoded
 - fund lookup is normalized, not keyed to a fixed sample list
 - all money math lives in SQL or deterministic TypeScript, not in model prose
+
+## Railway Smoke Test
+
+Once the Railway service is live and the database has been initialized and ingested, test it with:
+
+Health check:
+
+```powershell
+Invoke-RestMethod -Method Get `
+  -Uri "https://finance-tracker-production-3bc5.up.railway.app/health"
+```
+
+Basic spending question:
+
+```powershell
+Invoke-RestMethod -Method Post `
+  -Uri "https://finance-tracker-production-3bc5.up.railway.app/ask" `
+  -ContentType "application/json" `
+  -Body '{"question":"What was my biggest expense?"}'
+```
+
+Category spend question:
+
+```powershell
+Invoke-RestMethod -Method Post `
+  -Uri "https://finance-tracker-production-3bc5.up.railway.app/ask" `
+  -ContentType "application/json" `
+  -Body '{"question":"How much did I spend on food in March 2025 after refunds?"}'
+```
+
+Portfolio question:
+
+```powershell
+Invoke-RestMethod -Method Post `
+  -Uri "https://finance-tracker-production-3bc5.up.railway.app/ask" `
+  -ContentType "application/json" `
+  -Body '{"question":"What is my portfolio worth today, and how much have I made on it in absolute INR?"}'
+```
 
 ## Known Limitations
 

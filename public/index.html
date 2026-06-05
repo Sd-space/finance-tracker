@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tara Finance Research Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Finance Research Agent</p>
+          <h1>Tara</h1>
+          <p class="lede">
+            Ask grounded questions about spending, merchants, funds, holdings, and portfolio performance.
+            Every numeric answer comes from the ingested dataset through database-backed tools.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-card-label">Connected endpoints</p>
+          <div class="hero-card-grid">
+            <span>UI</span>
+            <code>/</code>
+            <span>Health</span>
+            <code>/health</code>
+            <span>API</span>
+            <code>/ask</code>
+          </div>
+        </div>
+      </header>
+
+      <main class="chat-layout">
+        <aside class="prompt-panel">
+          <h2>Quick prompts</h2>
+          <button class="prompt-chip" data-question="What was my biggest expense?">What was my biggest expense?</button>
+          <button class="prompt-chip" data-question="How much did I spend on food in March 2025 after refunds?">
+            Food spend in March 2025
+          </button>
+          <button class="prompt-chip" data-question="Which transactions look like recurring subscriptions?">
+            Find recurring subscriptions
+          </button>
+          <button
+            class="prompt-chip"
+            data-question="What is my portfolio worth today, and how much have I made on it in absolute INR?"
+          >
+            Portfolio value and gains
+          </button>
+          <button
+            class="prompt-chip"
+            data-question="Of the funds I own, which gave me the best realised return, and how does it compare to the same fund's period return over the same window?"
+          >
+            Best holding vs fund return
+          </button>
+        </aside>
+
+        <section class="chat-panel">
+          <div class="chat-header">
+            <div>
+              <h2>Ask Tara</h2>
+              <p>Try a natural-language finance question. Tara will query the backend and answer from tool results.</p>
+            </div>
+            <span id="statusBadge" class="status-badge">Ready</span>
+          </div>
+
+          <div id="messages" class="messages" aria-live="polite">
+            <article class="message message-assistant">
+              <div class="message-role">Tara</div>
+              <div class="message-body">
+                Ask about spending, category comparisons, recurring subscriptions, fund returns, or your portfolio.
+              </div>
+            </article>
+          </div>
+
+          <form id="askForm" class="composer">
+            <label class="composer-label" for="questionInput">Question</label>
+            <textarea
+              id="questionInput"
+              name="question"
+              rows="3"
+              placeholder="What was my biggest expense?"
+              required
+            ></textarea>
+            <div class="composer-actions">
+              <p class="composer-hint">Responses come from the live `/ask` endpoint on this same deployment.</p>
+              <button id="submitButton" type="submit">Ask Tara</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+  </html>

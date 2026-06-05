@@ -1,5 +1,6 @@
 import express from "express";
 import { randomUUID } from "node:crypto";
+import path from "node:path";
 import { z } from "zod";
 import { config } from "./config.js";
 import { detectTaskType } from "./domain/finance-service.js";
@@ -12,10 +13,17 @@ const askSchema = z.object({
 });
 
 const app = express();
+const publicDir = path.resolve("public");
+
+app.use(express.static(publicDir));
 app.use(express.json());
 
 app.get("/health", async (_req, res) => {
   res.json({ ok: true });
+});
+
+app.get("/", async (_req, res) => {
+  res.sendFile(path.join(publicDir, "index.html"));
 });
 
 app.post("/ask", async (req, res) => {
