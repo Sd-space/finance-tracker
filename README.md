@@ -44,6 +44,16 @@ The same deployment also serves a lightweight chat interface at:
 GET /
 ```
 
+## Screenshots
+
+Hero section:
+
+![Tara hero UI](./image/Tara_hero.png)
+
+Chat interface:
+
+![Tara chat interface](./image/Tara_interface.png)
+
 ## Environment
 
 Create a `.env` file in the project root with:
